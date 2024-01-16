@@ -1,3 +1,58 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:@next/next/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:prettier/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:import/recommended"
+  ],
+  "plugins": [
+    "react-hooks",
+    "prettier",
+    "react",
+    "jsx-a11y",
+    "import",
+    "import-helpers"
+  ],
+  "rules": {
+    "import-helpers/order-imports": [
+      "warn",
+      {
+        "newlinesBetween": "always",
+        "groups": [
+          ["/^react/", "/^next/"],
+          "module",
+          "/^@shared/",
+          "/^@pages/",
+          "/^@styles/",
+          "/^@utils/",
+          "/^@lib/",
+          "/^@db/",
+          "/^@models/",
+          "/^@data-access/",
+          "/^@services/",
+          "/^@entities/",
+          "/^@use-cases/",
+          "/^@app/",
+          "/^@assets/",
+          "/^@types/",
+          "/^@hooks/",
+          "/^@config/",
+          "/^@context/",
+          "/^@constants/",
+          "/^@validations/",
+          "/^@mocks/",
+          "/^@test/",
+          "/^@components/",
+          "/^@/",
+          ["parent", "sibling", "index"]
+        ],
+        "alphabetize": {
+          "order": "asc",
+          "ignoreCase": true
+        }
+      }
+    ]
+  }
 }
