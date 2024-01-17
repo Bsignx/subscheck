@@ -5,25 +5,27 @@ import { cn } from '@/lib/utils'
 const TypographyVariants = cva('font-sans font-normal leading-normal', {
   variants: {
     variant: {
-      h1: 'text-6xl font-bold leading-tight',
-      h2: 'text-5xl font-bold leading-tight',
-      h3: 'text-4xl font-bold leading-tight',
-      h4: 'text-3xl font-bold leading-tight',
-      h5: 'text-2xl font-bold leading-tight',
-      h6: 'text-xl font-bold leading-tight',
-      paragraph: 'text-base font-normal leading-relaxed',
-      small: 'text-sm font-normal leading-relaxed',
-      lead: 'text-lg font-normal leading-relaxed'
+      h1: 'text-4xl font-bold',
+      h2: 'text-3xl font-bold',
+      h3: 'text-2xl font-bold',
+      h4: 'text-lg font-normal',
+      h5: 'text-base font-normal',
+      h6: 'text-sm font-normal',
+      subtitle: 'text-lg font-medium',
+      bodyLarge: 'text-base font-normal tracking-widest',
+      bodyMedium: 'text-sm font-normal tracking-widest',
+      bodySmall: 'text-xs font-medium tracking-widest'
     }
   },
   defaultVariants: {
-    variant: 'paragraph'
+    variant: 'bodyMedium'
   }
 })
 
 type TypographyProps = {
   children: React.ReactNode
   className?: string
+  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span'
 } & VariantProps<typeof TypographyVariants>
 
 const getComponent = ({ variant }: VariantProps<typeof TypographyVariants>) => {
@@ -40,11 +42,13 @@ const getComponent = ({ variant }: VariantProps<typeof TypographyVariants>) => {
       return 'h5'
     case 'h6':
       return 'h6'
-    case 'paragraph':
+    case 'bodyLarge':
       return 'p'
-    case 'small':
+    case 'bodySmall':
       return 'small'
-    case 'lead':
+    case 'bodyMedium':
+      return 'p'
+    case 'subtitle':
       return 'p'
     default:
       return 'p'
@@ -54,9 +58,10 @@ const getComponent = ({ variant }: VariantProps<typeof TypographyVariants>) => {
 export const Typography = ({
   className,
   children,
-  variant
+  variant,
+  as
 }: TypographyProps) => {
-  const Component = getComponent({ variant })
+  const Component = as || getComponent({ variant })
 
   return (
     <Component className={cn(TypographyVariants({ variant, className }))}>
