@@ -24,9 +24,10 @@ type RegisterValues = z.infer<typeof RegisterSchema>
 
 export default function Register() {
   const [isPending, startTransition] = useTransition()
-  const [submissionStatus, setSubmissionStatus] = useState<
-    'success' | 'error' | null
-  >(null)
+  const [submissionStatus, setSubmissionStatus] = useState<{
+    status: 'success' | 'error'
+    message: string
+  } | null>(null)
 
   const form = useForm<RegisterValues>({
     resolver: zodResolver(RegisterSchema),
@@ -41,7 +42,17 @@ export default function Register() {
 
     startTransition(() => {
       register(values).then((response) =>
-        setSubmissionStatus(response.ok ? 'success' : 'error')
+        setSubmissionStatus(
+          response?.success
+            ? {
+                status: 'success',
+                message: response.success
+              }
+            : {
+                status: 'error',
+                message: response.error ?? 'Something went wrong'
+              }
+        )
       )
     })
   }
@@ -110,15 +121,15 @@ export default function Register() {
             {
               success: (
                 <p className="text-sm font-medium text-success">
-                  You have been registered!
+                  {submissionStatus.message}
                 </p>
               ),
               error: (
                 <p className="text-sm font-medium text-destructive">
-                  Something went wrong.
+                  {submissionStatus.message}
                 </p>
               )
-            }[submissionStatus]}
+            }[submissionStatus.status]}
 
           <Button type="submit" className="w-full" disabled={isPending}>
             Register
