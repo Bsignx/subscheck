@@ -31,8 +31,8 @@ export const {
 } = NextAuth({
   session: { strategy: 'jwt' },
   pages: {
-    signIn: '/auth/login',
-    error: '/auth/error'
+    signIn: '/login',
+    error: '/auth-error'
   },
   events: {
     async linkAccount({ user }) {

@@ -1,6 +1,7 @@
 'use client'
 
 import { signIn } from 'next-auth/react'
+import { useSearchParams } from 'next/navigation'
 import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -25,6 +26,13 @@ import { LoginSchema } from './schemas'
 type LoginValues = z.infer<typeof LoginSchema>
 
 export default function Login() {
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get('callbackUrl')
+  const urlError =
+    searchParams.get('error') === 'OAuthAccountNotLinked'
+      ? 'Email already in use with different provider!'
+      : ''
+
   const [isPending, startTransition] = useTransition()
   const [submissionStatus, setSubmissionStatus] = useState<{
     status: 'success' | 'error'
@@ -43,7 +51,7 @@ export default function Login() {
     setSubmissionStatus(null)
 
     startTransition(() => {
-      login(values).then((response) =>
+      login(values, callbackUrl).then((response) =>
         setSubmissionStatus(
           response?.error
             ? {
@@ -105,6 +113,10 @@ export default function Login() {
               </FormItem>
             )}
           />
+
+          {urlError && (
+            <p className="text-sm font-medium text-destructive">{urlError}</p>
+          )}
 
           {submissionStatus &&
             {
