@@ -1,6 +1,6 @@
 'use server'
 
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import * as Z from 'zod'
 
 import { getUserByEmail } from '@/data-access/user'

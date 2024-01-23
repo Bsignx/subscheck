@@ -1,5 +1,6 @@
 'use client'
 
+import { signIn } from 'next-auth/react'
 import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -15,6 +16,7 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { DEFAULT_LOGIN_REDIRECT } from '@/lib/auth/auth-routes'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { login } from './actions'
@@ -24,9 +26,10 @@ type LoginValues = z.infer<typeof LoginSchema>
 
 export default function Login() {
   const [isPending, startTransition] = useTransition()
-  const [submissionStatus, setSubmissionStatus] = useState<
-    'success' | 'error' | null
-  >(null)
+  const [submissionStatus, setSubmissionStatus] = useState<{
+    status: 'success' | 'error'
+    message: string
+  } | null>(null)
 
   const form = useForm<LoginValues>({
     resolver: zodResolver(LoginSchema),
@@ -41,13 +44,28 @@ export default function Login() {
 
     startTransition(() => {
       login(values).then((response) =>
-        setSubmissionStatus(response.ok ? 'success' : 'error')
+        setSubmissionStatus(
+          response?.error
+            ? {
+                status: 'error',
+                message: response?.error ?? 'Something went wrong'
+              }
+            : {
+                status: 'success',
+                message: 'You have been logged in!'
+              }
+        )
       )
     })
   }
 
+  const onClick = () => {
+    signIn('google', { callbackUrl: DEFAULT_LOGIN_REDIRECT })
+  }
+
   return (
     <>
+      <Button onClick={onClick}>Login with Google</Button>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="p-4">
           <FormField
@@ -92,15 +110,15 @@ export default function Login() {
             {
               success: (
                 <p className="text-sm font-medium text-success">
-                  You have been logged in!
+                  {submissionStatus.message}
                 </p>
               ),
               error: (
                 <p className="text-sm font-medium text-destructive">
-                  Invalid credentials.
+                  {submissionStatus.message}
                 </p>
               )
-            }[submissionStatus]}
+            }[submissionStatus.status]}
 
           <Button type="submit" className="w-full" disabled={isPending}>
             Login
