@@ -7,12 +7,13 @@ import * as z from 'zod'
 import { getUserByEmail } from '@/data-access/user'
 import { signIn } from '@/lib/auth'
 import { DEFAULT_LOGIN_REDIRECT } from '@/lib/auth/auth-routes'
+import { sendVerificationEmail } from '@/lib/mail'
+import { generateVerificationToken } from '@/lib/token'
 
 import { LoginSchema } from './schemas'
 
 // import { getTwoFactorConfirmationByUserId } from '@/data/two-factor-confirmation'
 // import { getTwoFactorTokenByEmail } from '@/data/two-factor-token'
-// import { sendVerificationEmail, sendTwoFactorTokenEmail } from '@/lib/mail'
 // import { generateVerificationToken, generateTwoFactorToken } from '@/lib/tokens'
 
 export const login = async (
@@ -34,18 +35,18 @@ export const login = async (
     return { error: 'Email does not exist!' }
   }
 
-  // if (!existingUser.emailVerified) {
-  //   const verificationToken = await generateVerificationToken(
-  //     existingUser.email
-  //   )
+  if (!existingUser.emailVerified) {
+    const verificationToken = await generateVerificationToken(
+      existingUser.email
+    )
 
-  //   await sendVerificationEmail(
-  //     verificationToken.email,
-  //     verificationToken.token
-  //   )
+    await sendVerificationEmail(
+      verificationToken.email,
+      verificationToken.token
+    )
 
-  //   return { success: 'Confirmation email sent!' }
-  // }
+    return { success: 'Confirmation email sent!' }
+  }
 
   // if (existingUser.isTwoFactorEnabled && existingUser.email) {
   //   if (code) {

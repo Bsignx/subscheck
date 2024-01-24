@@ -60,7 +60,7 @@ export default function Login() {
               }
             : {
                 status: 'success',
-                message: 'You have been logged in!'
+                message: response?.success ?? 'You have been logged in'
               }
         )
       )

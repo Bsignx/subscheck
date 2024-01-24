@@ -4,6 +4,8 @@ import bcrypt from 'bcryptjs'
 import * as Z from 'zod'
 
 import { getUserByEmail } from '@/data-access/user'
+import { sendVerificationEmail } from '@/lib/mail'
+import { generateVerificationToken } from '@/lib/token'
 import { db } from '@/server/db'
 
 import { RegisterSchema } from './schemas'
@@ -18,13 +20,12 @@ export const register = async (values: RegisterValues) => {
   }
 
   const { email, password, name } = validatedFields.data
-
   const hashedPassword = await bcrypt.hash(password, 10)
 
   const existingUser = await getUserByEmail(email)
 
   if (existingUser) {
-    return { error: 'User already exists' }
+    return { error: 'Email already in use!' }
   }
 
   await db.user.create({
@@ -34,8 +35,9 @@ export const register = async (values: RegisterValues) => {
       name
     }
   })
+  const verificationToken = await generateVerificationToken(email)
 
-  // TODO: Send email confirmation
+  await sendVerificationEmail(verificationToken.email, verificationToken.token)
 
-  return { success: 'User created' }
+  return { success: 'Confirmation email sent!' }
 }
