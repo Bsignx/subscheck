@@ -35,6 +35,7 @@ export default function Login() {
       : ''
 
   const [isPending, startTransition] = useTransition()
+  const [showTwoFactor, setShowTwoFactor] = useState(false)
   const [submissionStatus, setSubmissionStatus] = useState<{
     status: 'success' | 'error'
     message: string
@@ -52,19 +53,34 @@ export default function Login() {
     setSubmissionStatus(null)
 
     startTransition(() => {
-      login(values, callbackUrl).then((response) =>
-        setSubmissionStatus(
-          response?.error
-            ? {
-                status: 'error',
-                message: response?.error ?? 'Something went wrong'
-              }
-            : {
-                status: 'success',
-                message: response?.success ?? 'You have been logged in'
-              }
-        )
-      )
+      login(values, callbackUrl)
+        .then((response) => {
+          if (response?.error) {
+            form.reset()
+            setSubmissionStatus({
+              status: 'error',
+              message: response?.error ?? 'Something went wrong'
+            })
+          }
+
+          if (response?.success) {
+            form.reset()
+            setSubmissionStatus({
+              status: 'success',
+              message: response?.success ?? 'You have been logged in'
+            })
+          }
+
+          if (response?.twoFactor) {
+            setShowTwoFactor(true)
+          }
+        })
+        .catch(() => {
+          setSubmissionStatus({
+            status: 'error',
+            message: 'Something went wrong'
+          })
+        })
     })
   }
 
@@ -77,51 +93,77 @@ export default function Login() {
       <Button onClick={onClick}>Login with Google</Button>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="p-4">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    disabled={isPending}
-                    type="email"
-                    placeholder="john.doe@example.com"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          {showTwoFactor && (
+            <>
+              <FormField
+                control={form.control}
+                name="code"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Two Factor Code</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        disabled={isPending}
+                        placeholder="123456"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </>
+          )}
 
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    disabled={isPending}
-                    type="password"
-                    placeholder="********"
-                  />
-                </FormControl>
-                <Button
-                  size="sm"
-                  variant="link"
-                  asChild
-                  className="px-0 font-normal"
-                >
-                  <Link href="/reset">Forgot password?</Link>
-                </Button>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          {!showTwoFactor && (
+            <>
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        disabled={isPending}
+                        type="email"
+                        placeholder="john.doe@example.com"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        disabled={isPending}
+                        type="password"
+                        placeholder="********"
+                      />
+                    </FormControl>
+                    <Button
+                      size="sm"
+                      variant="link"
+                      asChild
+                      className="px-0 font-normal"
+                    >
+                      <Link href="/reset">Forgot password?</Link>
+                    </Button>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </>
+          )}
 
           {urlError && (
             <p className="text-sm font-medium text-destructive">{urlError}</p>
@@ -142,7 +184,7 @@ export default function Login() {
             }[submissionStatus.status]}
 
           <Button type="submit" className="w-full" disabled={isPending}>
-            Login
+            {showTwoFactor ? 'Verify' : 'Login'}
           </Button>
         </form>
       </Form>

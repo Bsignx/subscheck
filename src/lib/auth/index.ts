@@ -2,6 +2,7 @@ import NextAuth, { type Session } from 'next-auth'
 import { type JWT } from 'next-auth/jwt'
 
 import { getAccountByUserId } from '@/data-access/account'
+import { getTwoFactorConfirmationByUserId } from '@/data-access/two-factor-confirmation'
 import { getUserById } from '@/data-access/user'
 import { db } from '@/server/db'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
@@ -12,6 +13,7 @@ declare module 'next-auth' {
   interface User {
     role: string
     isOAuth?: boolean
+    isTwoFactorEnabled?: boolean
   }
 }
 
@@ -19,6 +21,7 @@ declare module 'next-auth/jwt' {
   /** Returned by the `jwt` callback and `auth`, when using JWT sessions */
   interface JWT {
     role: string
+    isTwoFactorEnabled?: boolean
   }
 }
 
@@ -52,18 +55,18 @@ export const {
       // Prevent sign in without email verification
       if (!existingUser?.emailVerified) return false
 
-      // if (existingUser.isTwoFactorEnabled) {
-      //   const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(
-      //     existingUser.id
-      //   )
+      if (existingUser.isTwoFactorEnabled) {
+        const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(
+          existingUser.id
+        )
 
-      //   if (!twoFactorConfirmation) return false
+        if (!twoFactorConfirmation) return false
 
-      //   // Delete two factor confirmation for next sign in
-      //   await db.twoFactorConfirmation.delete({
-      //     where: { id: twoFactorConfirmation.id }
-      //   })
-      // }
+        // Delete two factor confirmation for next sign in
+        await db.twoFactorConfirmation.delete({
+          where: { id: twoFactorConfirmation.id }
+        })
+      }
 
       return true
     },
@@ -82,9 +85,9 @@ export const {
         session.user.role = token.role
       }
 
-      // if (session.user) {
-      //   session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean
-      // }
+      if (session.user) {
+        session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean
+      }
 
       if (session.user) {
         session.user.name = token.name
@@ -107,7 +110,7 @@ export const {
       token.name = existingUser.name
       token.email = existingUser.email
       token.role = existingUser.role
-      // token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled
+      token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled
 
       return token
     }

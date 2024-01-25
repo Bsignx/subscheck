@@ -1,10 +1,11 @@
-import * as Z from 'zod'
+import * as z from 'zod'
 
-export const LoginSchema = Z.object({
-  email: Z.string().email({
+export const LoginSchema = z.object({
+  email: z.string().email({
     message: 'Please enter a valid email address'
   }),
-  password: Z.string().min(1, {
+  password: z.string().min(1, {
     message: 'Please enter a password'
-  })
+  }),
+  code: z.optional(z.string())
 })
