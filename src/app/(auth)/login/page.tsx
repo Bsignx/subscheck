@@ -1,6 +1,7 @@
 'use client'
 
 import { signIn } from 'next-auth/react'
+import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
@@ -109,6 +110,14 @@ export default function Login() {
                     placeholder="********"
                   />
                 </FormControl>
+                <Button
+                  size="sm"
+                  variant="link"
+                  asChild
+                  className="px-0 font-normal"
+                >
+                  <Link href="/reset">Forgot password?</Link>
+                </Button>
                 <FormMessage />
               </FormItem>
             )}
