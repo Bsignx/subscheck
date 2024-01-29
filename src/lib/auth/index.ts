@@ -6,12 +6,13 @@ import { getTwoFactorConfirmationByUserId } from '@/data-access/two-factor-confi
 import { getUserById } from '@/data-access/user'
 import { db } from '@/server/db'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
+import { UserRole } from '@prisma/client'
 
 import authConfig from './auth-config'
 
 declare module 'next-auth' {
   interface User {
-    role: string
+    role: UserRole
     isOAuth?: boolean
     isTwoFactorEnabled?: boolean
   }
@@ -20,7 +21,8 @@ declare module 'next-auth' {
 declare module 'next-auth/jwt' {
   /** Returned by the `jwt` callback and `auth`, when using JWT sessions */
   interface JWT {
-    role: string
+    role: UserRole
+    isOAuth?: boolean
     isTwoFactorEnabled?: boolean
   }
 }
@@ -86,13 +88,13 @@ export const {
       }
 
       if (session.user) {
-        session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean
+        session.user.isTwoFactorEnabled = token.isTwoFactorEnabled
       }
 
       if (session.user) {
         session.user.name = token.name
         session.user.email = token.email
-        session.user.isOAuth = token.isOAuth as boolean
+        session.user.isOAuth = token.isOAuth
       }
 
       return session
