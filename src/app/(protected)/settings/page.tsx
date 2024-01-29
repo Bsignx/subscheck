@@ -30,7 +30,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { UserRole } from '@prisma/client'
 
 import { settings } from './actions'
-import { SettingsSchema } from './schemas'
+import { SettingsSchema, SettingsValues } from './schemas'
 
 const SettingsPage = () => {
   const user = useCurrentUser()
@@ -40,7 +40,7 @@ const SettingsPage = () => {
   const { update } = useSession()
   const [isPending, startTransition] = useTransition()
 
-  const form = useForm<z.infer<typeof SettingsSchema>>({
+  const form = useForm<SettingsValues>({
     resolver: zodResolver(SettingsSchema),
     defaultValues: {
       password: undefined,
@@ -52,7 +52,7 @@ const SettingsPage = () => {
     }
   })
 
-  const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
+  const onSubmit = (values: SettingsValues) => {
     startTransition(() => {
       settings(values)
         .then((data) => {

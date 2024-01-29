@@ -5,3 +5,5 @@ export const ResetSchema = z.object({
     message: 'Email is required'
   })
 })
+
+export type ResetValues = z.infer<typeof ResetSchema>

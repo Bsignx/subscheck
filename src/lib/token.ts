@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { getPasswordResetTokenByEmail } from '@/data-access/password-reset-token'
 import { getTwoFactorTokenByEmail } from '@/data-access/two-factor-token'
 import { getVerificationTokenByEmail } from '@/data-access/verification-token'
-import { db } from '@/server/db'
+import { db } from '@/db'
 
 const oneHour = 3600 * 1000
 const fiveMinutes = 5 * 60 * 1000

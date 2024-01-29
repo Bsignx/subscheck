@@ -18,21 +18,21 @@ import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { reset } from './actions'
-import { ResetSchema } from './schemas'
+import { ResetSchema, ResetValues } from './schemas'
 
 export default function Reset() {
   const [error, setError] = useState<string | undefined>('')
   const [success, setSuccess] = useState<string | undefined>('')
   const [isPending, startTransition] = useTransition()
 
-  const form = useForm<z.infer<typeof ResetSchema>>({
+  const form = useForm<ResetValues>({
     resolver: zodResolver(ResetSchema),
     defaultValues: {
       email: ''
     }
   })
 
-  const onSubmit = (values: z.infer<typeof ResetSchema>) => {
+  const onSubmit = (values: ResetValues) => {
     setError('')
     setSuccess('')
 

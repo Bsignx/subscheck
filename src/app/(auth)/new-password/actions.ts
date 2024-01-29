@@ -5,12 +5,12 @@ import * as z from 'zod'
 
 import { getPasswordResetTokenByToken } from '@/data-access/password-reset-token'
 import { getUserByEmail } from '@/data-access/user'
-import { db } from '@/server/db'
+import { db } from '@/db'
 
-import { NewPasswordSchema } from './schemas'
+import { NewPasswordSchema, NewPasswordValues } from './schemas'
 
 export const newPassword = async (
-  values: z.infer<typeof NewPasswordSchema>,
+  values: NewPasswordValues,
   token?: string | null
 ) => {
   if (!token) {

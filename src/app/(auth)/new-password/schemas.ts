@@ -5,3 +5,5 @@ export const NewPasswordSchema = z.object({
     message: 'Minimum of 6 characters required'
   })
 })
+
+export type NewPasswordValues = z.infer<typeof NewPasswordSchema>

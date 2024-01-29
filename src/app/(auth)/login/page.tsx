@@ -22,13 +22,12 @@ import { DEFAULT_LOGIN_REDIRECT } from '@/lib/auth/auth-routes'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { login } from './actions'
-import { LoginSchema } from './schemas'
-
-type LoginValues = z.infer<typeof LoginSchema>
+import { LoginSchema, LoginValues } from './schemas'
 
 export default function Login() {
   const searchParams = useSearchParams()
   const callbackUrl = searchParams.get('callbackUrl')
+
   const urlError =
     searchParams.get('error') === 'OAuthAccountNotLinked'
       ? 'Email already in use with different provider!'
@@ -85,7 +84,7 @@ export default function Login() {
   }
 
   const onClick = () => {
-    signIn('google', { callbackUrl: DEFAULT_LOGIN_REDIRECT })
+    signIn('google', { callbackUrl: callbackUrl || DEFAULT_LOGIN_REDIRECT })
   }
 
   return (

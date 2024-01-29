@@ -19,7 +19,7 @@ import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { newPassword } from './actions'
-import { NewPasswordSchema } from './schemas'
+import { NewPasswordSchema, NewPasswordValues } from './schemas'
 
 export default function NewPassword() {
   const searchParams = useSearchParams()
@@ -29,14 +29,14 @@ export default function NewPassword() {
   const [success, setSuccess] = useState<string | undefined>('')
   const [isPending, startTransition] = useTransition()
 
-  const form = useForm<z.infer<typeof NewPasswordSchema>>({
+  const form = useForm<NewPasswordValues>({
     resolver: zodResolver(NewPasswordSchema),
     defaultValues: {
       password: ''
     }
   })
 
-  const onSubmit = (values: z.infer<typeof NewPasswordSchema>) => {
+  const onSubmit = (values: NewPasswordValues) => {
     setError('')
     setSuccess('')
 

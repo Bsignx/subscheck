@@ -37,3 +37,5 @@ export const SettingsSchema = z
       path: ['password']
     }
   )
+
+export type SettingsValues = z.infer<typeof SettingsSchema>

@@ -18,9 +18,7 @@ import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { register } from './actions'
-import { RegisterSchema } from './schemas'
-
-type RegisterValues = z.infer<typeof RegisterSchema>
+import { RegisterSchema, RegisterValues } from './schemas'
 
 export default function Register() {
   const [isPending, startTransition] = useTransition()

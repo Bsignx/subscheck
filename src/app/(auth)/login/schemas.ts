@@ -9,3 +9,5 @@ export const LoginSchema = z.object({
   }),
   code: z.optional(z.string())
 })
+
+export type LoginValues = z.infer<typeof LoginSchema>

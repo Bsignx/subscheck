@@ -4,14 +4,14 @@ import bcrypt from 'bcryptjs'
 import * as z from 'zod'
 
 import { getUserByEmail, getUserById } from '@/data-access/user'
+import { db } from '@/db'
 import { currentUser, unstable_update } from '@/lib/auth'
 import { sendVerificationEmail } from '@/lib/mail'
 import { generateVerificationToken } from '@/lib/token'
-import { db } from '@/server/db'
 
-import { SettingsSchema } from './schemas'
+import { SettingsSchema, SettingsValues } from './schemas'
 
-export const settings = async (values: z.infer<typeof SettingsSchema>) => {
+export const settings = async (values: SettingsValues) => {
   const user = await currentUser()
 
   if (!user) {

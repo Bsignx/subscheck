@@ -11,3 +11,5 @@ export const RegisterSchema = Z.object({
     message: 'Name must be at least 2 characters long'
   })
 })
+
+export type RegisterValues = Z.infer<typeof RegisterSchema>

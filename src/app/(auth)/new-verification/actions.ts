@@ -2,7 +2,7 @@
 
 import { getUserByEmail } from '@/data-access/user'
 import { getVerificationTokenByToken } from '@/data-access/verification-token'
-import { db } from '@/server/db'
+import { db } from '@/db'
 
 export const newVerification = async (token: string) => {
   const existingToken = await getVerificationTokenByToken(token)

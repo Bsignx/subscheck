@@ -4,7 +4,7 @@ import { type JWT } from 'next-auth/jwt'
 import { getAccountByUserId } from '@/data-access/account'
 import { getTwoFactorConfirmationByUserId } from '@/data-access/two-factor-confirmation'
 import { getUserById } from '@/data-access/user'
-import { db } from '@/server/db'
+import { db } from '@/db'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { UserRole } from '@prisma/client'
 

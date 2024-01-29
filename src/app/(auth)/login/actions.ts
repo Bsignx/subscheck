@@ -2,21 +2,19 @@
 
 import { AuthError } from 'next-auth'
 
-import * as z from 'zod'
-
 import { getTwoFactorConfirmationByUserId } from '@/data-access/two-factor-confirmation'
 import { getTwoFactorTokenByEmail } from '@/data-access/two-factor-token'
 import { getUserByEmail } from '@/data-access/user'
+import { db } from '@/db'
 import { signIn } from '@/lib/auth'
 import { DEFAULT_LOGIN_REDIRECT } from '@/lib/auth/auth-routes'
 import { sendTwoFactorTokenEmail, sendVerificationEmail } from '@/lib/mail'
 import { generateTwoFactorToken, generateVerificationToken } from '@/lib/token'
-import { db } from '@/server/db'
 
-import { LoginSchema } from './schemas'
+import { LoginSchema, LoginValues } from './schemas'
 
 export const login = async (
-  values: z.infer<typeof LoginSchema>,
+  values: LoginValues,
   callbackUrl?: string | null
 ) => {
   const validatedFields = LoginSchema.safeParse(values)
