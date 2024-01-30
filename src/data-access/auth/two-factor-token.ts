@@ -1,25 +1,40 @@
 import { db } from '@/db'
+import { TwoFactorToken } from '@/db/types'
+import { TwoFactorTokenDto } from '@/use-cases/auth/types'
 
-export const getTwoFactorTokenByToken = async (token: string) => {
-  try {
-    const twoFactorToken = await db.twoFactorToken.findUnique({
-      where: { token }
-    })
-
-    return twoFactorToken
-  } catch {
-    return null
+export function toDtoMapper(twoFactorToken: TwoFactorToken) {
+  return {
+    id: twoFactorToken.id,
+    email: twoFactorToken.email,
+    token: twoFactorToken.token,
+    expires: twoFactorToken.expires
   }
 }
 
-export const getTwoFactorTokenByEmail = async (email: string) => {
-  try {
-    const twoFactorToken = await db.twoFactorToken.findFirst({
-      where: { email }
-    })
+export const getTwoFactorTokenByToken = async (
+  token: string
+): Promise<TwoFactorTokenDto | null> => {
+  const twoFactorToken = await db.twoFactorToken.findUnique({
+    where: { token }
+  })
 
-    return twoFactorToken
-  } catch {
+  if (!twoFactorToken) {
     return null
   }
+
+  return toDtoMapper(twoFactorToken)
+}
+
+export const getTwoFactorTokenByEmail = async (
+  email: string
+): Promise<TwoFactorTokenDto | null> => {
+  const twoFactorToken = await db.twoFactorToken.findFirst({
+    where: { email }
+  })
+
+  if (!twoFactorToken) {
+    return null
+  }
+
+  return toDtoMapper(twoFactorToken)
 }
