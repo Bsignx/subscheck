@@ -2,7 +2,7 @@
 
 import * as z from 'zod'
 
-import { getUserByEmail } from '@/data-access/user'
+import { getUserByEmail } from '@/data-access/auth/user'
 import { sendPasswordResetEmail } from '@/lib/mail'
 import { generatePasswordResetToken } from '@/lib/token'
 

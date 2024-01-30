@@ -1,10 +1,9 @@
 'use server'
 
 import bcrypt from 'bcryptjs'
-import * as z from 'zod'
 
-import { getPasswordResetTokenByToken } from '@/data-access/password-reset-token'
-import { getUserByEmail } from '@/data-access/user'
+import { getPasswordResetTokenByToken } from '@/data-access/auth/password-reset-token'
+import { getUserByEmail } from '@/data-access/auth/user'
 import { db } from '@/db'
 
 import { NewPasswordSchema, NewPasswordValues } from './schemas'

@@ -4,8 +4,6 @@ import { useSession } from 'next-auth/react'
 import { useTransition, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-import * as z from 'zod'
-
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -25,9 +23,9 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
+import { UserRole } from '@/db/enums'
 import { useCurrentUser } from '@/hooks/use-current-user'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { UserRole } from '@prisma/client'
 
 import { settings } from './actions'
 import { SettingsSchema, SettingsValues } from './schemas'

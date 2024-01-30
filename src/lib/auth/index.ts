@@ -1,12 +1,12 @@
 import NextAuth, { type Session } from 'next-auth'
 import { type JWT } from 'next-auth/jwt'
 
-import { getAccountByUserId } from '@/data-access/account'
-import { getTwoFactorConfirmationByUserId } from '@/data-access/two-factor-confirmation'
-import { getUserById } from '@/data-access/user'
+import { getAccountByUserId } from '@/data-access/auth/account'
+import { getTwoFactorConfirmationByUserId } from '@/data-access/auth/two-factor-confirmation'
+import { getUserById } from '@/data-access/auth/user'
 import { db } from '@/db'
+import { UserRole } from '@/db/types'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
-import { UserRole } from '@prisma/client'
 
 import authConfig from './auth-config'
 

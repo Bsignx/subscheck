@@ -1,9 +1,8 @@
 'use server'
 
 import bcrypt from 'bcryptjs'
-import * as Z from 'zod'
 
-import { getUserByEmail } from '@/data-access/user'
+import { getUserByEmail } from '@/data-access/auth/user'
 import { db } from '@/db'
 import { sendVerificationEmail } from '@/lib/mail'
 import { generateVerificationToken } from '@/lib/token'

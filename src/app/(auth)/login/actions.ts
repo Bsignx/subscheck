@@ -2,9 +2,9 @@
 
 import { AuthError } from 'next-auth'
 
-import { getTwoFactorConfirmationByUserId } from '@/data-access/two-factor-confirmation'
-import { getTwoFactorTokenByEmail } from '@/data-access/two-factor-token'
-import { getUserByEmail } from '@/data-access/user'
+import { getTwoFactorConfirmationByUserId } from '@/data-access/auth/two-factor-confirmation'
+import { getTwoFactorTokenByEmail } from '@/data-access/auth/two-factor-token'
+import { getUserByEmail } from '@/data-access/auth/user'
 import { db } from '@/db'
 import { signIn } from '@/lib/auth'
 import { DEFAULT_LOGIN_REDIRECT } from '@/lib/auth/auth-routes'
