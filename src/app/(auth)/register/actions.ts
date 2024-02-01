@@ -2,8 +2,7 @@
 
 import bcrypt from 'bcryptjs'
 
-import { getUserByEmail } from '@/data-access/auth/user'
-import { db } from '@/db'
+import { createUser, getUserByEmail } from '@/data-access/auth/user'
 import { sendVerificationEmail } from '@/lib/mail'
 import { generateVerificationToken } from '@/lib/token'
 
@@ -25,13 +24,12 @@ export const register = async (values: RegisterValues) => {
     return { error: 'Email already in use!' }
   }
 
-  await db.user.create({
-    data: {
-      email,
-      password: hashedPassword,
-      name
-    }
+  await createUser({
+    email,
+    password: hashedPassword,
+    name
   })
+
   const verificationToken = await generateVerificationToken(email)
 
   await sendVerificationEmail(verificationToken.email, verificationToken.token)

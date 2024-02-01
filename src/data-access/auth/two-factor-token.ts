@@ -38,3 +38,7 @@ export const getTwoFactorTokenByEmail = async (
 
   return toDtoMapper(twoFactorToken)
 }
+
+export const deleteTwoFactorToken = async (id: string): Promise<void> => {
+  await db.twoFactorToken.delete({ where: { id } })
+}

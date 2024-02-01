@@ -2,10 +2,16 @@
 
 import { AuthError } from 'next-auth'
 
-import { getTwoFactorConfirmationByUserId } from '@/data-access/auth/two-factor-confirmation'
-import { getTwoFactorTokenByEmail } from '@/data-access/auth/two-factor-token'
+import {
+  createTwoFactorConfirmation,
+  deleteTwoFactorConfirmation,
+  getTwoFactorConfirmationByUserId
+} from '@/data-access/auth/two-factor-confirmation'
+import {
+  deleteTwoFactorToken,
+  getTwoFactorTokenByEmail
+} from '@/data-access/auth/two-factor-token'
 import { getUserByEmail } from '@/data-access/auth/user'
-import { db } from '@/db'
 import { signIn } from '@/lib/auth'
 import { DEFAULT_LOGIN_REDIRECT } from '@/lib/auth/auth-routes'
 import { sendTwoFactorTokenEmail, sendVerificationEmail } from '@/lib/mail'
@@ -62,25 +68,17 @@ export const login = async (
         return { error: 'Code expired!' }
       }
 
-      await db.twoFactorToken.delete({
-        where: { id: twoFactorToken.id }
-      })
+      await deleteTwoFactorToken(twoFactorToken.id)
 
       const existingConfirmation = await getTwoFactorConfirmationByUserId(
         existingUser.id
       )
 
       if (existingConfirmation) {
-        await db.twoFactorConfirmation.delete({
-          where: { id: existingConfirmation.id }
-        })
+        await deleteTwoFactorConfirmation(existingConfirmation.id)
       }
 
-      await db.twoFactorConfirmation.create({
-        data: {
-          userId: existingUser.id
-        }
-      })
+      await createTwoFactorConfirmation(existingUser.id)
     } else {
       const twoFactorToken = await generateTwoFactorToken(existingUser.email)
       await sendTwoFactorTokenEmail(twoFactorToken.email, twoFactorToken.token)

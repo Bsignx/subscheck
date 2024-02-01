@@ -2,8 +2,11 @@ import NextAuth, { type Session } from 'next-auth'
 import { type JWT } from 'next-auth/jwt'
 
 import { getAccountByUserId } from '@/data-access/auth/account'
-import { getTwoFactorConfirmationByUserId } from '@/data-access/auth/two-factor-confirmation'
-import { getUserById } from '@/data-access/auth/user'
+import {
+  deleteTwoFactorConfirmation,
+  getTwoFactorConfirmationByUserId
+} from '@/data-access/auth/two-factor-confirmation'
+import { getUserById, updateUser } from '@/data-access/auth/user'
 import { db } from '@/db'
 import { UserRole } from '@/db/types'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
@@ -41,10 +44,7 @@ export const {
   },
   events: {
     async linkAccount({ user }) {
-      await db.user.update({
-        where: { id: user.id },
-        data: { emailVerified: new Date() }
-      })
+      updateUser(user.id, { emailVerified: new Date() })
     }
   },
   callbacks: {
@@ -65,9 +65,7 @@ export const {
         if (!twoFactorConfirmation) return false
 
         // Delete two factor confirmation for next sign in
-        await db.twoFactorConfirmation.delete({
-          where: { id: twoFactorConfirmation.id }
-        })
+        await deleteTwoFactorConfirmation(twoFactorConfirmation.id)
       }
 
       return true

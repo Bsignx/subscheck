@@ -38,3 +38,17 @@ export const getPasswordResetTokenByEmail = async (
 
   return toDtoMapper(passwordResetToken)
 }
+
+export const deletePasswordResetToken = async (id: string): Promise<void> => {
+  await db.passwordResetToken.delete({ where: { id } })
+}
+
+export const createPasswordResetToken = async (
+  values: Omit<PasswordResetTokenDto, 'id'>
+): Promise<PasswordResetTokenDto> => {
+  const passwordResetToken = await db.passwordResetToken.create({
+    data: values
+  })
+
+  return toDtoMapper(passwordResetToken)
+}

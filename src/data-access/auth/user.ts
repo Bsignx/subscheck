@@ -38,3 +38,21 @@ export const getUserById = async (id?: string): Promise<UserDto | null> => {
 
   return toDtoMapper(user)
 }
+
+export const updateUser = async (
+  id: string | undefined,
+  data: Partial<UserDto>
+): Promise<UserDto> => {
+  const user = await db.user.update({
+    where: { id },
+    data
+  })
+
+  return toDtoMapper(user)
+}
+
+export const createUser = async (data: Partial<UserDto>): Promise<void> => {
+  await db.user.create({
+    data
+  })
+}

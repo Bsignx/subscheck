@@ -2,9 +2,11 @@
 
 import bcrypt from 'bcryptjs'
 
-import { getPasswordResetTokenByToken } from '@/data-access/auth/password-reset-token'
-import { getUserByEmail } from '@/data-access/auth/user'
-import { db } from '@/db'
+import {
+  deletePasswordResetToken,
+  getPasswordResetTokenByToken
+} from '@/data-access/auth/password-reset-token'
+import { getUserByEmail, updateUser } from '@/data-access/auth/user'
 
 import { NewPasswordSchema, NewPasswordValues } from './schemas'
 
@@ -44,14 +46,9 @@ export const newPassword = async (
 
   const hashedPassword = await bcrypt.hash(password, 10)
 
-  await db.user.update({
-    where: { id: existingUser.id },
-    data: { password: hashedPassword }
-  })
+  await updateUser(existingUser.id, { password: hashedPassword })
 
-  await db.passwordResetToken.delete({
-    where: { id: existingToken.id }
-  })
+  await deletePasswordResetToken(existingToken.id)
 
   return { success: 'Password updated!' }
 }

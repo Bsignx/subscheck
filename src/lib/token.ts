@@ -1,9 +1,20 @@
 import crypto from 'crypto'
 import { v4 as uuidv4 } from 'uuid'
 
-import { getPasswordResetTokenByEmail } from '@/data-access/auth/password-reset-token'
-import { getTwoFactorTokenByEmail } from '@/data-access/auth/two-factor-token'
-import { getVerificationTokenByEmail } from '@/data-access/auth/verification-token'
+import {
+  createPasswordResetToken,
+  deletePasswordResetToken,
+  getPasswordResetTokenByEmail
+} from '@/data-access/auth/password-reset-token'
+import {
+  deleteTwoFactorToken,
+  getTwoFactorTokenByEmail
+} from '@/data-access/auth/two-factor-token'
+import {
+  createVerificationToken,
+  deleteVerificationToken,
+  getVerificationTokenByEmail
+} from '@/data-access/auth/verification-token'
 import { db } from '@/db'
 
 const oneHour = 3600 * 1000
@@ -17,11 +28,7 @@ export const generateTwoFactorToken = async (email: string) => {
   const existingToken = await getTwoFactorTokenByEmail(email)
 
   if (existingToken) {
-    await db.twoFactorToken.delete({
-      where: {
-        id: existingToken.id
-      }
-    })
+    deleteTwoFactorToken(existingToken.id)
   }
 
   const twoFactorToken = await db.twoFactorToken.create({
@@ -43,17 +50,13 @@ export const generatePasswordResetToken = async (email: string) => {
   const existingToken = await getPasswordResetTokenByEmail(email)
 
   if (existingToken) {
-    await db.passwordResetToken.delete({
-      where: { id: existingToken.id }
-    })
+    deletePasswordResetToken(existingToken.id)
   }
 
-  const passwordResetToken = await db.passwordResetToken.create({
-    data: {
-      email,
-      token,
-      expires
-    }
+  const passwordResetToken = await createPasswordResetToken({
+    email,
+    token,
+    expires
   })
 
   return passwordResetToken
@@ -67,19 +70,13 @@ export const generateVerificationToken = async (email: string) => {
   const existingToken = await getVerificationTokenByEmail(email)
 
   if (existingToken) {
-    await db.verificationToken.delete({
-      where: {
-        id: existingToken.id
-      }
-    })
+    await deleteVerificationToken(existingToken.id)
   }
 
-  const verificationToken = await db.verificationToken.create({
-    data: {
-      email,
-      token,
-      expires
-    }
+  const verificationToken = await createVerificationToken({
+    email,
+    token,
+    expires
   })
 
   return verificationToken

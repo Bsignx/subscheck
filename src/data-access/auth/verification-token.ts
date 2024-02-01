@@ -38,3 +38,17 @@ export const getVerificationTokenByEmail = async (
 
   return toDtoMapper(verificationToken)
 }
+
+export const deleteVerificationToken = async (id: string): Promise<void> => {
+  await db.verificationToken.delete({ where: { id } })
+}
+
+export const createVerificationToken = async (
+  values: Omit<VerificationTokenDto, 'id'>
+): Promise<VerificationTokenDto> => {
+  const verificationToken = await db.verificationToken.create({
+    data: values
+  })
+
+  return toDtoMapper(verificationToken)
+}

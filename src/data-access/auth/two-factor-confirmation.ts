@@ -22,3 +22,19 @@ export const getTwoFactorConfirmationByUserId = async (
 
   return toDtoMapper(twoFactorConfirmation)
 }
+
+export const deleteTwoFactorConfirmation = async (
+  id: string
+): Promise<void> => {
+  await db.twoFactorConfirmation.delete({ where: { id } })
+}
+
+export const createTwoFactorConfirmation = async (
+  userId: string
+): Promise<void> => {
+  await db.twoFactorConfirmation.create({
+    data: {
+      userId
+    }
+  })
+}

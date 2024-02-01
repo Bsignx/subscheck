@@ -3,8 +3,11 @@
 import bcrypt from 'bcryptjs'
 import * as z from 'zod'
 
-import { getUserByEmail, getUserById } from '@/data-access/auth/user'
-import { db } from '@/db'
+import {
+  getUserByEmail,
+  getUserById,
+  updateUser
+} from '@/data-access/auth/user'
 import { currentUser, unstable_update } from '@/lib/auth'
 import { sendVerificationEmail } from '@/lib/mail'
 import { generateVerificationToken } from '@/lib/token'
@@ -62,11 +65,8 @@ export const settings = async (values: SettingsValues) => {
     values.newPassword = undefined
   }
 
-  const updatedUser = await db.user.update({
-    where: { id: dbUser.id },
-    data: {
-      ...values
-    }
+  const updatedUser = await updateUser(dbUser.id, {
+    ...values
   })
 
   unstable_update({
