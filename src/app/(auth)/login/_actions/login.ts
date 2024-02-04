@@ -17,7 +17,7 @@ import { DEFAULT_LOGIN_REDIRECT } from '@/lib/auth/auth-routes'
 import { sendTwoFactorTokenEmail, sendVerificationEmail } from '@/lib/mail'
 import { generateTwoFactorToken, generateVerificationToken } from '@/lib/token'
 
-import { LoginSchema, LoginValues } from './schemas'
+import { LoginSchema, LoginValues } from '../schemas'
 
 export const login = async (
   values: LoginValues,

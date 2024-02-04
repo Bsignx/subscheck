@@ -6,7 +6,7 @@ import { createUser, getUserByEmail } from '@/data-access/auth/user'
 import { sendVerificationEmail } from '@/lib/mail'
 import { generateVerificationToken } from '@/lib/token'
 
-import { RegisterSchema, RegisterValues } from './schemas'
+import { RegisterSchema, RegisterValues } from '../schemas'
 
 export const register = async (values: RegisterValues) => {
   const validatedFields = RegisterSchema.safeParse(values)

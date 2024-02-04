@@ -6,8 +6,6 @@ import { useSearchParams } from 'next/navigation'
 import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 
-import * as z from 'zod'
-
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -21,7 +19,7 @@ import { Input } from '@/components/ui/input'
 import { DEFAULT_LOGIN_REDIRECT } from '@/lib/auth/auth-routes'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { login } from './actions'
+import { login } from './_actions/login'
 import { LoginSchema, LoginValues } from './schemas'
 
 export default function Login() {

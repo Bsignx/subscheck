@@ -17,7 +17,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { register } from './actions'
+import { register } from './_actions/register'
 import { RegisterSchema, RegisterValues } from './schemas'
 
 export default function Register() {

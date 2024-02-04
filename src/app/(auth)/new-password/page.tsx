@@ -4,8 +4,6 @@ import { useSearchParams } from 'next/navigation'
 import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 
-import * as z from 'zod'
-
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -18,7 +16,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { newPassword } from './actions'
+import { newPassword } from './_actions/update-password'
 import { NewPasswordSchema, NewPasswordValues } from './schemas'
 
 export default function NewPassword() {

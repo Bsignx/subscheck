@@ -8,7 +8,7 @@ import {
 } from '@/data-access/auth/password-reset-token'
 import { getUserByEmail, updateUser } from '@/data-access/auth/user'
 
-import { NewPasswordSchema, NewPasswordValues } from './schemas'
+import { NewPasswordSchema, NewPasswordValues } from '../schemas'
 
 export const newPassword = async (
   values: NewPasswordValues,

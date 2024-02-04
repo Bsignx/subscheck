@@ -12,7 +12,7 @@ import { currentUser, unstable_update } from '@/lib/auth'
 import { sendVerificationEmail } from '@/lib/mail'
 import { generateVerificationToken } from '@/lib/token'
 
-import { SettingsValues } from './schemas'
+import { SettingsValues } from '../schemas'
 
 export const settings = async (values: SettingsValues) => {
   const user = await currentUser()

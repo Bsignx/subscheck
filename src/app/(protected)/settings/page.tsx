@@ -27,7 +27,7 @@ import { UserRole } from '@/db/enums'
 import { useCurrentUser } from '@/hooks/use-current-user'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { settings } from './actions'
+import { settings } from './_actions/update-user-settings'
 import { SettingsSchema, SettingsValues } from './schemas'
 
 const SettingsPage = () => {
