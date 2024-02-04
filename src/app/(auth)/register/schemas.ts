@@ -1,15 +1,15 @@
-import * as Z from 'zod'
+import * as z from 'zod'
 
-export const RegisterSchema = Z.object({
-  email: Z.string().email({
+export const RegisterSchema = z.object({
+  email: z.string().email({
     message: 'Please enter a valid email address'
   }),
-  password: Z.string().min(8, {
+  password: z.string().min(8, {
     message: 'Password must be at least 8 characters long'
   }),
-  name: Z.string().min(2, {
+  name: z.string().min(2, {
     message: 'Name must be at least 2 characters long'
   })
 })
 
-export type RegisterValues = Z.infer<typeof RegisterSchema>
+export type RegisterValues = z.infer<typeof RegisterSchema>

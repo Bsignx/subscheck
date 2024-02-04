@@ -3,7 +3,7 @@
 import { useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 
-import { newVerification } from './_actions/verify-email'
+import { verifyEmail } from './_actions/verify-email'
 
 export default function NewVerification() {
   const [error, setError] = useState<string | undefined>()
@@ -20,7 +20,7 @@ export default function NewVerification() {
       return
     }
 
-    newVerification(token)
+    verifyEmail(token)
       .then((data) => {
         setSuccess(data.success)
         setError(data.error)

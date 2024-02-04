@@ -1,12 +1,15 @@
 'use server'
 
+import { ActionReturn } from '@/app/_actions/types'
 import { getUserByEmail, updateUser } from '@/data-access/auth/user'
 import {
   deleteVerificationToken,
   getVerificationTokenByToken
 } from '@/data-access/auth/verification-token'
 
-export const newVerification = async (token: string) => {
+type Return = ActionReturn
+
+export const verifyEmail = async (token: string): Promise<Return> => {
   const existingToken = await getVerificationTokenByToken(token)
 
   if (!existingToken) {

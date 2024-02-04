@@ -1,14 +1,15 @@
 'use server'
 
-import * as z from 'zod'
-
+import { ActionReturn } from '@/app/_actions/types'
 import { getUserByEmail } from '@/data-access/auth/user'
 import { sendPasswordResetEmail } from '@/lib/mail'
 import { generatePasswordResetToken } from '@/lib/token'
 
 import { ResetSchema, ResetValues } from '../schemas'
 
-export const reset = async (values: ResetValues) => {
+type Return = ActionReturn
+
+export const reset = async (values: ResetValues): Promise<Return> => {
   const validatedFields = ResetSchema.safeParse(values)
 
   if (!validatedFields.success) {

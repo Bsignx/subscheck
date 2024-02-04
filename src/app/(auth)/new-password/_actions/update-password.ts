@@ -2,6 +2,7 @@
 
 import bcrypt from 'bcryptjs'
 
+import { ActionReturn } from '@/app/_actions/types'
 import {
   deletePasswordResetToken,
   getPasswordResetTokenByToken
@@ -10,10 +11,12 @@ import { getUserByEmail, updateUser } from '@/data-access/auth/user'
 
 import { NewPasswordSchema, NewPasswordValues } from '../schemas'
 
+type Return = ActionReturn
+
 export const newPassword = async (
   values: NewPasswordValues,
   token?: string | null
-) => {
+): Promise<Return> => {
   if (!token) {
     return { error: 'Missing token!' }
   }

@@ -2,13 +2,16 @@
 
 import bcrypt from 'bcryptjs'
 
+import { ActionReturn } from '@/app/_actions/types'
 import { createUser, getUserByEmail } from '@/data-access/auth/user'
 import { sendVerificationEmail } from '@/lib/mail'
 import { generateVerificationToken } from '@/lib/token'
 
 import { RegisterSchema, RegisterValues } from '../schemas'
 
-export const register = async (values: RegisterValues) => {
+type Return = ActionReturn
+
+export const register = async (values: RegisterValues): Promise<Return> => {
   const validatedFields = RegisterSchema.safeParse(values)
 
   if (!validatedFields.success) {

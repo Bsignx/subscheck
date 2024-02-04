@@ -2,6 +2,7 @@
 
 import { AuthError } from 'next-auth'
 
+import { ActionReturn } from '@/app/_actions/types'
 import {
   createTwoFactorConfirmation,
   deleteTwoFactorConfirmation,
@@ -19,10 +20,14 @@ import { generateTwoFactorToken, generateVerificationToken } from '@/lib/token'
 
 import { LoginSchema, LoginValues } from '../schemas'
 
+type Return = {
+  twoFactor?: boolean
+} & ActionReturn
+
 export const login = async (
   values: LoginValues,
   callbackUrl?: string | null
-) => {
+): Promise<Return> => {
   const validatedFields = LoginSchema.safeParse(values)
 
   if (!validatedFields.success) {
@@ -106,4 +111,6 @@ export const login = async (
 
     throw error
   }
+
+  return { error: 'Something went wrong!' }
 }
