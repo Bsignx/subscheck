@@ -49,3 +49,32 @@ export type UserDto = {
   image: string | null
   isTwoFactorEnabled: boolean
 }
+
+export type GetUserByEmail = (email: string) => Promise<UserDto | null>
+export type CreateTwoFactorConfirmation = (userId: string) => Promise<void>
+export type DeleteTwoFactorConfirmation = (id: string) => Promise<void>
+export type GetTwoFactorConfirmationByUserId = (
+  userId: string
+) => Promise<TwoFactorConfirmationDto | null>
+export type DeleteTwoFactorToken = (id: string) => Promise<void>
+export type GetTwoFactorTokenByEmail = (
+  email: string
+) => Promise<TwoFactorTokenDto | null>
+export type GenerateVerificationToken = (
+  email: string
+) => Promise<VerificationTokenDto>
+export type SendVerificationEmail = (
+  email: string,
+  token: string
+) => Promise<void>
+export type SignIn = (
+  provider: string,
+  options: { email: string; password: string; redirectTo?: string }
+) => Promise<void>
+export type GenerateTwoFactorToken = (
+  email: string
+) => Promise<TwoFactorTokenDto>
+export type SendTwoFactorTokenEmail = (
+  email: string,
+  token: string
+) => Promise<void>
