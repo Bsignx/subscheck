@@ -37,7 +37,7 @@ export const login = async (
 
   const { email, password, code } = validatedFields.data
 
-  return loginUseCase({
+  return await loginUseCase({
     context: {
       getUserByEmail,
       createTwoFactorConfirmation,

@@ -78,3 +78,12 @@ export type SendTwoFactorTokenEmail = (
   email: string,
   token: string
 ) => Promise<void>
+export type GetPasswordResetTokenByToken = (
+  token: string
+) => Promise<PasswordResetTokenDto | null>
+export type DeletePasswordResetToken = (id: string) => Promise<void>
+export type UpdateUser = (
+  id: string | undefined,
+  data: Partial<UserDto>
+) => Promise<UserDto>
+export type Hash = (password: string, salt: number) => Promise<string>
