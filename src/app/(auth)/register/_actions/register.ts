@@ -6,6 +6,7 @@ import { ActionReturn } from '@/app/_actions/types'
 import { createUser, getUserByEmail } from '@/data-access/auth/user'
 import { sendVerificationEmail } from '@/lib/mail'
 import { generateVerificationToken } from '@/lib/token'
+import { registerUseCase } from '@/use-cases/auth/register'
 
 import { RegisterSchema, RegisterValues } from '../schemas'
 
@@ -19,23 +20,19 @@ export const register = async (values: RegisterValues): Promise<Return> => {
   }
 
   const { email, password, name } = validatedFields.data
-  const hashedPassword = await bcrypt.hash(password, 10)
 
-  const existingUser = await getUserByEmail(email)
-
-  if (existingUser) {
-    return { error: 'Email already in use!' }
-  }
-
-  await createUser({
-    email,
-    password: hashedPassword,
-    name
+  return await registerUseCase({
+    context: {
+      createUser,
+      getUserByEmail,
+      sendVerificationEmail,
+      generateVerificationToken,
+      hash: bcrypt.hash
+    },
+    data: {
+      email,
+      password,
+      name
+    }
   })
-
-  const verificationToken = await generateVerificationToken(email)
-
-  await sendVerificationEmail(verificationToken.email, verificationToken.token)
-
-  return { success: 'Confirmation email sent!' }
 }

@@ -91,3 +91,4 @@ export type DeleteVerificationToken = (id: string) => Promise<void>
 export type GetVerificationTokenByToken = (
   token: string
 ) => Promise<VerificationTokenDto | null>
+export type CreateUser = (data: Partial<UserDto>) => Promise<void>
