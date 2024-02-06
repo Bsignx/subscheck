@@ -87,3 +87,7 @@ export type UpdateUser = (
   data: Partial<UserDto>
 ) => Promise<UserDto>
 export type Hash = (password: string, salt: number) => Promise<string>
+export type DeleteVerificationToken = (id: string) => Promise<void>
+export type GetVerificationTokenByToken = (
+  token: string
+) => Promise<VerificationTokenDto | null>
