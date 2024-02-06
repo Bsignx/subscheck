@@ -92,3 +92,10 @@ export type GetVerificationTokenByToken = (
   token: string
 ) => Promise<VerificationTokenDto | null>
 export type CreateUser = (data: Partial<UserDto>) => Promise<void>
+export type GeneratePasswordResetToken = (
+  email: string
+) => Promise<PasswordResetTokenDto>
+export type SendPasswordResetEmail = (
+  email: string,
+  token: string
+) => Promise<void>
