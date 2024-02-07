@@ -84,9 +84,12 @@ export type GetPasswordResetTokenByToken = (
 export type DeletePasswordResetToken = (id: string) => Promise<void>
 export type UpdateUser = (
   id: string | undefined,
-  data: Partial<UserDto>
+  data: Partial<UserDto> & {
+    newPassword?: string
+  }
 ) => Promise<UserDto>
-export type Hash = (password: string, salt: number) => Promise<string>
+export type Hash = (string: string, salt: number) => Promise<string>
+export type HashCompare = (string: string, hash: string) => Promise<boolean>
 export type DeleteVerificationToken = (id: string) => Promise<void>
 export type GetVerificationTokenByToken = (
   token: string
@@ -99,3 +102,4 @@ export type SendPasswordResetEmail = (
   email: string,
   token: string
 ) => Promise<void>
+export type GetUserById = (id?: string) => Promise<UserDto | null>

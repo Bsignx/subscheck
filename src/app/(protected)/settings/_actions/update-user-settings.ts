@@ -10,72 +10,41 @@ import {
 import { currentUser, unstable_update } from '@/lib/auth'
 import { sendVerificationEmail } from '@/lib/mail'
 import { generateVerificationToken } from '@/lib/token'
+import { updateUserSettingsUseCase } from '@/use-cases/auth/update-user-settings'
 
 import { SettingsValues } from '../schemas'
 
 export const settings = async (values: SettingsValues) => {
   const user = await currentUser()
 
-  if (!user) {
-    return { error: 'Unauthorized' }
-  }
-
-  const dbUser = await getUserById(user.id)
-
-  if (!dbUser) {
-    return { error: 'Unauthorized' }
-  }
-
-  if (user.isOAuth) {
-    values.email = undefined
-    values.password = undefined
-    values.newPassword = undefined
-    values.isTwoFactorEnabled = undefined
-  }
-
-  if (values.email && values.email !== user.email) {
-    const existingUser = await getUserByEmail(values.email)
-
-    if (existingUser && existingUser.id !== user.id) {
-      return { error: 'Email already in use!' }
-    }
-
-    const verificationToken = await generateVerificationToken(values.email)
-    await sendVerificationEmail(
-      verificationToken.email,
-      verificationToken.token
-    )
-
-    return { success: 'Verification email sent!' }
-  }
-
-  if (values.password && values.newPassword && dbUser.password) {
-    const passwordsMatch = await bcrypt.compare(
-      values.password,
-      dbUser.password
-    )
-
-    if (!passwordsMatch) {
-      return { error: 'Incorrect password!' }
-    }
-
-    const hashedPassword = await bcrypt.hash(values.newPassword, 10)
-    values.password = hashedPassword
-    values.newPassword = undefined
-  }
-
-  const updatedUser = await updateUser(dbUser.id, {
-    ...values
-  })
-
-  unstable_update({
-    user: {
-      name: updatedUser.name,
-      email: updatedUser.email,
-      isTwoFactorEnabled: updatedUser.isTwoFactorEnabled,
-      role: updatedUser.role
+  const { updatedUser, ...status } = await updateUserSettingsUseCase({
+    context: {
+      getUserByEmail,
+      getUserById,
+      updateUser,
+      hash: bcrypt.hash,
+      hashCompare: bcrypt.compare,
+      generateVerificationToken,
+      sendVerificationEmail
+    },
+    data: {
+      ...values,
+      isOAuth: user?.isOAuth,
+      userId: user?.id,
+      userEmail: user?.email
     }
   })
 
-  return { success: 'Settings Updated!' }
+  status.success &&
+    updatedUser &&
+    unstable_update({
+      user: {
+        name: updatedUser?.name,
+        email: updatedUser?.email,
+        isTwoFactorEnabled: updatedUser?.isTwoFactorEnabled,
+        role: updatedUser?.role
+      }
+    })
+
+  return status
 }
