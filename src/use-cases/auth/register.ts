@@ -1,3 +1,5 @@
+import { AUTH_STATUS_MESSAGE } from '@/entities/auth'
+
 import {
   CreateUser,
   GenerateVerificationToken,
@@ -27,7 +29,7 @@ export async function registerUseCase({ context, data }: Params) {
   const existingUser = await context.getUserByEmail(data.email)
 
   if (existingUser) {
-    return { error: 'Email already in use!' }
+    return { error: AUTH_STATUS_MESSAGE.EMAIL_ALREADY_IN_USE }
   }
 
   await context.createUser({
@@ -43,5 +45,5 @@ export async function registerUseCase({ context, data }: Params) {
     verificationToken.token
   )
 
-  return { success: 'Confirmation email sent!' }
+  return { success: AUTH_STATUS_MESSAGE.CONFIRMATION_EMAIL_SENT }
 }

@@ -1,3 +1,5 @@
+import { AUTH_STATUS_MESSAGE } from '@/entities/auth'
+
 import {
   DeletePasswordResetToken,
   GetPasswordResetTokenByToken,
@@ -22,25 +24,25 @@ type Params = {
 
 export async function updatePasswordUseCase({ data, context }: Params) {
   if (!data.token) {
-    return { error: 'Missing token!' }
+    return { error: AUTH_STATUS_MESSAGE.MISSING_TOKEN }
   }
 
   const existingToken = await context.getPasswordResetTokenByToken(data.token)
 
   if (!existingToken) {
-    return { error: 'Invalid token!' }
+    return { error: AUTH_STATUS_MESSAGE.INVALID_TOKEN }
   }
 
   const hasExpired = new Date(existingToken.expires) < new Date()
 
   if (hasExpired) {
-    return { error: 'Token has expired!' }
+    return { error: AUTH_STATUS_MESSAGE.TOKEN_EXPIRED }
   }
 
   const existingUser = await context.getUserByEmail(existingToken.email)
 
   if (!existingUser) {
-    return { error: 'Email does not exist!' }
+    return { error: AUTH_STATUS_MESSAGE.EMAIL_DOES_NOT_EXIST }
   }
 
   const hashedPassword = await context.hash(data.password, 10)
@@ -49,5 +51,5 @@ export async function updatePasswordUseCase({ data, context }: Params) {
 
   await context.deletePasswordResetToken(existingToken.id)
 
-  return { success: 'Password updated!' }
+  return { success: AUTH_STATUS_MESSAGE.PASSWORD_UPDATED }
 }

@@ -1,3 +1,5 @@
+import { AUTH_STATUS_MESSAGE } from '@/entities/auth'
+
 import {
   GeneratePasswordResetToken,
   GetUserByEmail,
@@ -19,7 +21,7 @@ export async function resetUseCase({ context, data }: Params) {
   const existingUser = await context.getUserByEmail(data.email)
 
   if (!existingUser) {
-    return { error: 'Email not found!' }
+    return { error: AUTH_STATUS_MESSAGE.EMAIL_NOT_FOUND }
   }
 
   const passwordResetToken = await context.generatePasswordResetToken(
@@ -31,5 +33,5 @@ export async function resetUseCase({ context, data }: Params) {
     passwordResetToken.token
   )
 
-  return { success: 'Reset email sent!' }
+  return { success: AUTH_STATUS_MESSAGE.RESET_EMAIL_SENT }
 }

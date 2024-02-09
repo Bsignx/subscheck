@@ -1,3 +1,5 @@
+import { AUTH_STATUS_MESSAGE } from '@/entities/auth'
+
 import {
   DeleteVerificationToken,
   GetUserByEmail,
@@ -21,19 +23,19 @@ export async function verifyEmailUseCase({ context, data }: Params) {
   const existingToken = await context.getVerificationTokenByToken(data.token)
 
   if (!existingToken) {
-    return { error: 'Token does not exist!' }
+    return { error: AUTH_STATUS_MESSAGE.TOKEN_DOES_NOT_EXIST }
   }
 
   const hasExpired = new Date(existingToken.expires) < new Date()
 
   if (hasExpired) {
-    return { error: 'Token has expired!' }
+    return { error: AUTH_STATUS_MESSAGE.TOKEN_EXPIRED }
   }
 
   const existingUser = await context.getUserByEmail(existingToken.email)
 
   if (!existingUser) {
-    return { error: 'Email does not exist!' }
+    return { error: AUTH_STATUS_MESSAGE.EMAIL_DOES_NOT_EXIST }
   }
 
   await context.updateUser(existingUser.id, {
@@ -43,5 +45,5 @@ export async function verifyEmailUseCase({ context, data }: Params) {
 
   await context.deleteVerificationToken(existingToken.id)
 
-  return { success: 'Email verified!' }
+  return { success: AUTH_STATUS_MESSAGE.EMAIL_VERIFIED }
 }

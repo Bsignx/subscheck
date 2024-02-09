@@ -1,3 +1,5 @@
+import { AUTH_STATUS_MESSAGE } from '@/entities/auth'
+
 import {
   GenerateVerificationToken,
   GetUserByEmail,
@@ -34,13 +36,13 @@ type Params = {
 
 export async function updateUserSettingsUseCase({ context, data }: Params) {
   if (!data.userId) {
-    return { error: 'Unauthorized' }
+    return { error: AUTH_STATUS_MESSAGE.UNAUTHORIZED }
   }
 
   const dbUser = await context.getUserById(data.userId)
 
   if (!dbUser) {
-    return { error: 'Unauthorized' }
+    return { error: AUTH_STATUS_MESSAGE.UNAUTHORIZED }
   }
 
   if (data.isOAuth) {
@@ -54,7 +56,7 @@ export async function updateUserSettingsUseCase({ context, data }: Params) {
     const existingUser = await context.getUserByEmail(data.email)
 
     if (existingUser && existingUser.id !== data.userId) {
-      return { error: 'Email already in use!' }
+      return { error: AUTH_STATUS_MESSAGE.EMAIL_ALREADY_IN_USE }
     }
 
     const verificationToken = await context.generateVerificationToken(
@@ -65,7 +67,7 @@ export async function updateUserSettingsUseCase({ context, data }: Params) {
       verificationToken.token
     )
 
-    return { success: 'Verification email sent!' }
+    return { success: AUTH_STATUS_MESSAGE.VERIFICATION_EMAIL_SENT }
   }
 
   if (data.password && data.newPassword && dbUser.password) {
@@ -75,7 +77,7 @@ export async function updateUserSettingsUseCase({ context, data }: Params) {
     )
 
     if (!passwordsMatch) {
-      return { error: 'Incorrect password!' }
+      return { error: AUTH_STATUS_MESSAGE.INCORRECT_PASSWORD }
     }
 
     const hashedPassword = await context.hash(data.newPassword, 10)
@@ -92,5 +94,5 @@ export async function updateUserSettingsUseCase({ context, data }: Params) {
     newPassword: data.newPassword
   })
 
-  return { success: 'Settings Updated!', updatedUser }
+  return { success: AUTH_STATUS_MESSAGE.SETTINGS_UPDATED, updatedUser }
 }

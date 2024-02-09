@@ -1,3 +1,5 @@
+import { AUTH_STATUS_MESSAGE } from '@/entities/auth'
+
 import {
   CreateTwoFactorConfirmation,
   DeleteTwoFactorConfirmation,
@@ -39,7 +41,7 @@ export async function loginUseCase({ context, data }: Params) {
   const existingUser = await context.getUserByEmail(data.email)
 
   if (!existingUser || !existingUser.email || !existingUser.password) {
-    return { error: 'Email does not exist!' }
+    return { error: AUTH_STATUS_MESSAGE.EMAIL_DOES_NOT_EXIST }
   }
 
   if (!existingUser.emailVerified) {
@@ -52,7 +54,7 @@ export async function loginUseCase({ context, data }: Params) {
       verificationToken.token
     )
 
-    return { success: 'Confirmation email sent!' }
+    return { success: AUTH_STATUS_MESSAGE.CONFIRMATION_EMAIL_SENT }
   }
 
   if (existingUser.isTwoFactorEnabled && existingUser.email) {
@@ -62,17 +64,17 @@ export async function loginUseCase({ context, data }: Params) {
       )
 
       if (!twoFactorToken) {
-        return { error: 'Invalid code!' }
+        return { error: AUTH_STATUS_MESSAGE.INVALID_CODE }
       }
 
       if (twoFactorToken.token !== data.code) {
-        return { error: 'Invalid code!' }
+        return { error: AUTH_STATUS_MESSAGE.INVALID_CODE }
       }
 
       const hasExpired = new Date(twoFactorToken.expires) < new Date()
 
       if (hasExpired) {
-        return { error: 'Code expired!' }
+        return { error: AUTH_STATUS_MESSAGE.CODE_EXPIRED }
       }
 
       await context.deleteTwoFactorToken(twoFactorToken.id)
@@ -109,14 +111,14 @@ export async function loginUseCase({ context, data }: Params) {
     if (error instanceof AuthError) {
       switch (error.type) {
         case 'CredentialsSignin':
-          return { error: 'Invalid credentials!' }
+          return { error: AUTH_STATUS_MESSAGE.INVALID_CREDENTIALS }
         default:
-          return { error: 'Something went wrong!' }
+          return { error: AUTH_STATUS_MESSAGE.SOMETHING_WENT_WRONG }
       }
     }
 
     throw error
   }
 
-  return { error: 'Something went wrong!' }
+  return { error: AUTH_STATUS_MESSAGE.SOMETHING_WENT_WRONG }
 }

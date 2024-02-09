@@ -1,0 +1,22 @@
+export const AUTH_STATUS_MESSAGE = {
+  EMAIL_DOES_NOT_EXIST: 'Email does not exist!',
+  CONFIRMATION_EMAIL_SENT: 'Confirmation email sent!',
+  INVALID_CODE: 'Invalid code!',
+  CODE_EXPIRED: 'Code expired!',
+  INVALID_CREDENTIALS: 'Invalid credentials!',
+  SOMETHING_WENT_WRONG: 'Something went wrong!',
+  TWO_FACTOR_ENABLED: 'Two factor enabled!',
+  EMAIL_ALREADY_IN_USE: 'Email already in use!',
+  EMAIL_NOT_FOUND: 'Email not found!',
+  RESET_EMAIL_SENT: 'Reset email sent!',
+  MISSING_TOKEN: 'Missing token!',
+  INVALID_TOKEN: 'Invalid token!',
+  TOKEN_EXPIRED: 'Token has expired!',
+  PASSWORD_UPDATED: 'Password updated!',
+  UNAUTHORIZED: 'Unauthorized',
+  VERIFICATION_EMAIL_SENT: 'Verification email sent!',
+  INCORRECT_PASSWORD: 'Incorrect password!',
+  SETTINGS_UPDATED: 'Settings updated!',
+  TOKEN_DOES_NOT_EXIST: 'Token does not exist!',
+  EMAIL_VERIFIED: 'Email verified!'
+}
