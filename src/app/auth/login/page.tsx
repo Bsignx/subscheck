@@ -153,7 +153,7 @@ export default function Login() {
                       asChild
                       className="px-0 font-normal"
                     >
-                      <Link href="/reset">Forgot password?</Link>
+                      <Link href="/auth/reset">Forgot password?</Link>
                     </Button>
                     <FormMessage />
                   </FormItem>

@@ -20,10 +20,10 @@ export default function Welcome() {
           Track your subscriptions and get control over your finances.
         </Typography>
         <Button className="w-full mt-10" asChild>
-          <Link href="/register">Get started</Link>
+          <Link href="/auth/register">Get started</Link>
         </Button>
         <Button variant="chameleon" className="w-full mt-4" asChild>
-          <Link href="/login">I have an account</Link>
+          <Link href="/auth/login">I have an account</Link>
         </Button>
       </div>
     </main>
