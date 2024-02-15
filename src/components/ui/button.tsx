@@ -13,13 +13,13 @@ const buttonVariants = cva(
         default:
           'text-primary-foreground bg-primary hover:bg-primary/90 rounded-full shadow-[0_8px_25px_0_rgba(102,108,255,0.50)]  bg-[radial-gradient(100%_0%_at_45%_100%,rgba(255,255,255,0.00)_43.25%,rgba(102,108,255,0.50)_100%))]',
         chameleon:
-          'text-primary-foreground bg-[rgba(255,255,255,0.10)] hover:bg-[rgba(255,255,255,0.10)]/20 rounded-full',
+          'font-semibold text-primary-foreground bg-[rgba(255,255,255,0.10)] hover:bg-[rgba(255,255,255,0.10)]/20 rounded-full',
         destructive:
           'bg-destructive text-destructive-foreground hover:bg-destructive/90',
         outline:
           'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
         secondary:
-          'text-secondary-foreground bg-secondary  rounded-full hover:bg-secondary/90',
+          'font-semibold text-secondary-foreground bg-secondary  rounded-full hover:bg-secondary/90',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline'
       },

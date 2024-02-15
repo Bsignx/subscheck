@@ -12,9 +12,9 @@ const TypographyVariants = cva('font-sans font-normal leading-normal', {
       h5: 'text-base font-normal',
       h6: 'text-sm font-normal',
       subtitle: 'text-lg font-medium',
-      bodyLarge: 'text-base font-normal tracking-widest',
-      bodyMedium: 'text-sm font-normal tracking-widest',
-      bodySmall: 'text-xs font-medium tracking-widest'
+      bodyLarge: 'text-base font-normal tracking-wider',
+      bodyMedium: 'text-sm font-normal tracking-wider',
+      bodySmall: 'text-xs font-medium tracking-wider'
     }
   },
   defaultVariants: {
@@ -45,7 +45,7 @@ const getComponent = ({ variant }: VariantProps<typeof TypographyVariants>) => {
     case 'bodyLarge':
       return 'p'
     case 'bodySmall':
-      return 'small'
+      return 'p'
     case 'bodyMedium':
       return 'p'
     case 'subtitle':
