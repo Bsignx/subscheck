@@ -22,6 +22,7 @@ const config = {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
+        progress: 'hsl(var(--progress))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         primary: {
@@ -35,6 +36,9 @@ const config = {
         tertiary: {
           DEFAULT: 'hsl(var(--tertiary))',
           foreground: 'hsl(var(--tertiary-foreground))'
+        },
+        shy: {
+          foreground: 'hsl(var(--shy-foreground))'
         },
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
