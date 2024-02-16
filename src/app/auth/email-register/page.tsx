@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useTransition } from 'react'
+import Link from 'next/link'
+import { useEffect, useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
@@ -13,10 +14,23 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Logo } from '@/components/ui/logo'
+import { Progress } from '@/components/ui/progress'
+import { Typography } from '@/components/ui/typography'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { register } from './_actions/register'
+import { calculatePasswordStrength } from './_utils/calculate-password-strength'
 import { RegisterSchema, RegisterValues } from './schemas'
+
+const passwordStrengthToColor: Record<string, string> = {
+  0: 'bg-red-800',
+  20: 'bg-red-800',
+  40: 'bg-yellow-500',
+  60: 'bg-yellow-500',
+  80: 'bg-green-500',
+  100: 'bg-green-500'
+}
 
 export default function Register() {
   const [isPending, startTransition] = useTransition()
@@ -24,6 +38,7 @@ export default function Register() {
     status: 'success' | 'error'
     message: string
   } | null>(null)
+  const [passwordStrength, setPasswordStrength] = useState<number>(0)
 
   const form = useForm<RegisterValues>({
     resolver: zodResolver(RegisterSchema),
@@ -32,6 +47,18 @@ export default function Register() {
       password: ''
     }
   })
+
+  const password = form.watch('password')
+
+  const handlePasswordStrength = (password: string) => {
+    const passwordStrength = calculatePasswordStrength(password)
+
+    setPasswordStrength(passwordStrength)
+  }
+
+  useEffect(() => {
+    handlePasswordStrength(password)
+  }, [password])
 
   const onSubmit = (values: RegisterValues) => {
     setSubmissionStatus(null)
@@ -54,15 +81,16 @@ export default function Register() {
   }
 
   return (
-    <>
+    <main className="flex flex-col items-center justify-between min-h-screen pt-16 pb-6 px-6">
+      <Logo />
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="p-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>E-mail address</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
@@ -78,9 +106,27 @@ export default function Register() {
 
           <FormField
             control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem className="mt-4">
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    disabled={isPending}
+                    placeholder="John Doe"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
             name="password"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="mt-4">
                 <FormLabel>Password</FormLabel>
                 <FormControl>
                   <Input
@@ -95,43 +141,46 @@ export default function Register() {
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    disabled={isPending}
-                    placeholder="John Doe"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+          <Progress
+            value={passwordStrength}
+            className="w-full mt-6"
+            indicatorClassName={`${passwordStrengthToColor[passwordStrength.toString()]}`}
           />
+          <Typography
+            variant="bodySmall"
+            className="mt-3 text-tertiary-foreground"
+          >
+            Use 8 or more characters with a mix of letters, numbers & symbols.
+          </Typography>
 
           {submissionStatus &&
             {
               success: (
-                <p className="text-sm font-medium text-success">
+                <p className="text-sm font-medium text-success mt-4">
                   {submissionStatus.message}
                 </p>
               ),
               error: (
-                <p className="text-sm font-medium text-destructive">
+                <p className="text-sm font-medium text-destructive mt-4">
                   {submissionStatus.message}
                 </p>
               )
             }[submissionStatus.status]}
 
-          <Button type="submit" className="w-full" disabled={isPending}>
-            Register
+          <Button type="submit" className="w-full mt-10" disabled={isPending}>
+            Get started, it’s free!
           </Button>
         </form>
       </Form>
-    </>
+
+      <div className="w-full">
+        <Typography className="text-center">
+          Do you have already an account?
+        </Typography>
+        <Button variant="chameleon" className="w-full mt-5" asChild>
+          <Link href="/auth/login">Sign In</Link>
+        </Button>
+      </div>
+    </main>
   )
 }
