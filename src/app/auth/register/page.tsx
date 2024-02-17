@@ -4,11 +4,10 @@ import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
+import { GoogleIcon } from '@/components/ui/icons/google-icon'
 import { Logo } from '@/components/ui/logo'
 import { Typography } from '@/components/ui/typography'
 import { DEFAULT_LOGIN_REDIRECT } from '@/lib/auth/auth-routes'
-
-import { GoogleIcon } from './_components/google-icon'
 
 export default function PreRegister() {
   const handleGoogleSignIn = () => {

@@ -16,9 +16,12 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Logo } from '@/components/ui/logo'
+import { Typography } from '@/components/ui/typography'
 import { DEFAULT_LOGIN_REDIRECT } from '@/lib/auth/auth-routes'
 import { zodResolver } from '@hookform/resolvers/zod'
 
+import { GoogleIcon } from '../../../components/ui/icons/google-icon'
 import { login } from './_actions/login'
 import { LoginSchema, LoginValues } from './schemas'
 
@@ -81,110 +84,139 @@ export default function Login() {
     })
   }
 
-  const onClick = () => {
+  const handleGoogleSignIn = () => {
     signIn('google', { callbackUrl: callbackUrl || DEFAULT_LOGIN_REDIRECT })
   }
 
   return (
-    <>
-      <Button onClick={onClick}>Login with Google</Button>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="p-4">
-          {showTwoFactor && (
-            <>
-              <FormField
-                control={form.control}
-                name="code"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Two Factor Code</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        disabled={isPending}
-                        placeholder="123456"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </>
-          )}
+    <main className="flex flex-col items-center justify-between min-h-screen pt-16 pb-6 px-6">
+      <Logo />
+      <div className="w-full">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            {showTwoFactor && (
+              <>
+                <FormField
+                  control={form.control}
+                  name="code"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Two Factor Code</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          disabled={isPending}
+                          placeholder="123456"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </>
+            )}
 
-          {!showTwoFactor && (
-            <>
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        disabled={isPending}
-                        type="email"
-                        placeholder="john.doe@example.com"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            {!showTwoFactor && (
+              <>
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem className="mt-4">
+                      <FormLabel>E-mail</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          disabled={isPending}
+                          type="email"
+                          placeholder="john.doe@example.com"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        disabled={isPending}
-                        type="password"
-                        placeholder="********"
-                      />
-                    </FormControl>
-                    <Button
-                      size="sm"
-                      variant="link"
-                      asChild
-                      className="px-0 font-normal"
-                    >
-                      <Link href="/auth/reset">Forgot password?</Link>
-                    </Button>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </>
-          )}
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem className="mt-4">
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          disabled={isPending}
+                          type="password"
+                          placeholder="********"
+                        />
+                      </FormControl>
 
-          {urlError && (
-            <p className="text-sm font-medium text-destructive">{urlError}</p>
-          )}
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-          {submissionStatus &&
-            {
-              success: (
-                <p className="text-sm font-medium text-success">
-                  {submissionStatus.message}
-                </p>
-              ),
-              error: (
-                <p className="text-sm font-medium text-destructive">
-                  {submissionStatus.message}
-                </p>
-              )
-            }[submissionStatus.status]}
+                <Button
+                  size="sm"
+                  variant="link"
+                  asChild
+                  className="mt-2 px-0 underline underline-offset-1 font-normal text-tertiary-foreground"
+                >
+                  <Link href="/auth/reset">Forgot password</Link>
+                </Button>
+              </>
+            )}
 
-          <Button type="submit" className="w-full" disabled={isPending}>
-            {showTwoFactor ? 'Verify' : 'Login'}
-          </Button>
-        </form>
-      </Form>
-    </>
+            {urlError && (
+              <p className="text-sm font-medium text-destructive">{urlError}</p>
+            )}
+
+            {submissionStatus &&
+              {
+                success: (
+                  <p className="text-sm font-medium text-success">
+                    {submissionStatus.message}
+                  </p>
+                ),
+                error: (
+                  <p className="text-sm font-medium text-destructive">
+                    {submissionStatus.message}
+                  </p>
+                )
+              }[submissionStatus.status]}
+
+            <Button type="submit" className="w-full mt-4" disabled={isPending}>
+              {showTwoFactor ? 'Verify' : 'Sign In'}
+            </Button>
+          </form>
+        </Form>
+
+        {!showTwoFactor && (
+          <>
+            <Typography variant="bodyMedium" className="my-6  text-center">
+              or
+            </Typography>
+            <Button
+              variant="secondary"
+              className="w-full"
+              onClick={handleGoogleSignIn}
+            >
+              <GoogleIcon className="mr-2 w-4 h-4" />
+              Sign in with Google
+            </Button>
+          </>
+        )}
+      </div>
+
+      <div className="w-full">
+        <Typography className="text-center">
+          If you don&apos;t have an account yet?
+        </Typography>
+        <Button variant="chameleon" className="w-full mt-5" asChild>
+          <Link href="/auth/register">Sign up</Link>
+        </Button>
+      </div>
+    </main>
   )
 }
