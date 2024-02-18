@@ -6,7 +6,7 @@ import { Typography } from '@/components/ui/typography'
 
 export default function AuthError() {
   return (
-    <main className="flex flex-col items-center justify-between min-h-screen pt-16 pb-16 px-6">
+    <main className="flex flex-col items-center justify-between min-h-screen pt-16 pb-10 px-6">
       <Logo />
       <div className="w-full">
         <Typography variant="h2" as="h1" className="text-center">
