@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
@@ -13,6 +14,7 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form'
+import { Logo } from '@/components/ui/icons/logo'
 import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -47,10 +49,13 @@ export default function NewPassword() {
   }
 
   return (
-    <div>
-      <h1>New password</h1>
+    <main className="flex flex-col items-center justify-between min-h-screen pt-16 pb-10 px-6">
+      <Logo />
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-6  w-full"
+        >
           <div className="space-y-4">
             <FormField
               control={form.control}
@@ -80,6 +85,9 @@ export default function NewPassword() {
           </Button>
         </form>
       </Form>
-    </div>
+      <Button variant="chameleon" className="w-full mt-6" asChild>
+        <Link href="/auth/login">Go back to login</Link>
+      </Button>
+    </main>
   )
 }
