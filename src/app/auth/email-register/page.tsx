@@ -13,8 +13,8 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form'
+import { Logo } from '@/components/ui/icons/logo'
 import { Input } from '@/components/ui/input'
-import { Logo } from '@/components/ui/logo'
 import { Progress } from '@/components/ui/progress'
 import { Typography } from '@/components/ui/typography'
 import { zodResolver } from '@hookform/resolvers/zod'

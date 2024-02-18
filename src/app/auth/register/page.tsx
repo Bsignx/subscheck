@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
 import { GoogleIcon } from '@/components/ui/icons/google-icon'
-import { Logo } from '@/components/ui/logo'
+import { Logo } from '@/components/ui/icons/logo'
 import { Typography } from '@/components/ui/typography'
 import { DEFAULT_LOGIN_REDIRECT } from '@/lib/auth/auth-routes'
 

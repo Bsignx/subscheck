@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
-import { Logo } from '@/components/ui/logo'
+import { Logo } from '@/components/ui/icons/logo'
 import { Typography } from '@/components/ui/typography'
 
 export default function Welcome() {

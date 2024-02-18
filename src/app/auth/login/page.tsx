@@ -15,8 +15,8 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form'
+import { Logo } from '@/components/ui/icons/logo'
 import { Input } from '@/components/ui/input'
-import { Logo } from '@/components/ui/logo'
 import { Typography } from '@/components/ui/typography'
 import { DEFAULT_LOGIN_REDIRECT } from '@/lib/auth/auth-routes'
 import { zodResolver } from '@hookform/resolvers/zod'
