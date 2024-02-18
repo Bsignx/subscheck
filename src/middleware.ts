@@ -1,4 +1,5 @@
 import NextAuth from 'next-auth'
+import { NextResponse } from 'next/server'
 
 import authConfig from './lib/auth/auth-config'
 import {
@@ -30,6 +31,22 @@ export default auth((req) => {
   }
 
   if (!isLoggedIn && !isPublicRoute) {
+    const hasVisitedCookie = req.cookies.get('hasVisited')
+    const hasVisited = hasVisitedCookie?.value === 'true'
+
+    if (!hasVisited) {
+      const response = NextResponse.redirect(new URL('/auth/welcome', nextUrl))
+
+      response.cookies.set({
+        name: 'hasVisited',
+        value: 'true',
+        path: '/',
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30) // 30 days
+      })
+
+      return response
+    }
+
     let callbackUrl = nextUrl.pathname
     if (nextUrl.search) {
       callbackUrl += nextUrl.search
