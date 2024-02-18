@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -12,6 +13,7 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form'
+import { Logo } from '@/components/ui/icons/logo'
 import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -43,17 +45,21 @@ export default function Reset() {
   }
 
   return (
-    <div>
-      <h1>Reset</h1>
+    <main className="flex flex-col items-center justify-between min-h-screen pt-16 pb-10 px-6">
+      <Logo />
+
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-6 w-full"
+        >
           <div className="space-y-4">
             <FormField
               control={form.control}
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>E-mail</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
@@ -76,6 +82,10 @@ export default function Reset() {
           </Button>
         </form>
       </Form>
-    </div>
+
+      <Button variant="chameleon" className="w-full" asChild>
+        <Link href="/auth/login">Go back to login</Link>
+      </Button>
+    </main>
   )
 }
