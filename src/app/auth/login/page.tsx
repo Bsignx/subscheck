@@ -161,7 +161,7 @@ export default function Login() {
                   size="sm"
                   variant="link"
                   asChild
-                  className="mt-2 px-0 underline underline-offset-1 font-normal text-tertiary-foreground"
+                  className="w-full mt-2 px-0 underline underline-offset-1 font-normal text-tertiary-foreground"
                 >
                   <Link href="/auth/reset">Forgot password</Link>
                 </Button>
