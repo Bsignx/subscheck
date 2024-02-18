@@ -1,7 +1,12 @@
 'use client'
 
+import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
+
+import { Button } from '@/components/ui/button'
+import { Logo } from '@/components/ui/icons/logo'
+import { Typography } from '@/components/ui/typography'
 
 import { verifyEmail } from './_actions/verify-email'
 
@@ -35,14 +40,32 @@ export default function NewVerification() {
   }, [onSubmit])
 
   return (
-    <div>
-      <h1>NewVerification</h1>
+    <main className="flex flex-col items-center justify-between min-h-screen pt-16 pb-10 px-6">
+      <Logo />
 
       <div className="flex items-center w-full justify-center">
-        {!success && !error && 'Loading...'}
-        {success && <p>Success!</p>}
-        {!success && <p>{error}</p>}
+        {!success && !error && (
+          <Typography as="h1" variant="h5">
+            Loading...
+          </Typography>
+        )}
+
+        {success && (
+          <Typography as="h1" variant="h5">
+            {success}
+          </Typography>
+        )}
+
+        {!success && (
+          <Typography as="h1" variant="h5">
+            {error}
+          </Typography>
+        )}
       </div>
-    </div>
+
+      <Button variant="chameleon" className="w-full mt-6" asChild>
+        <Link href="/auth/login">Go back to login</Link>
+      </Button>
+    </main>
   )
 }
