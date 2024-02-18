@@ -54,6 +54,7 @@ model User {
   sessions      Session[]
   isTwoFactorEnabled Boolean @default(false)
   twoFactorConfirmation TwoFactorConfirmation?
+  creditCards CreditCard[]
 }
 
 model VerificationToken {
@@ -90,4 +91,48 @@ model TwoFactorConfirmation {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId])
+}
+
+model Category {
+  id String @id @default(cuid())
+  name String
+
+  subscriptions Subscription[]
+  budgets Budget[]
+}
+
+model Budget {
+  id String @id @default(cuid())
+  amount Float
+  startDate DateTime
+  endDate DateTime
+  categoryId String
+
+  category Category @relation(fields: [categoryId], references: [id])
+}
+
+
+model Subscription {
+  id String @id @default(cuid())
+  name String
+  price Float
+  description String?
+  firstBillingDate DateTime
+  reminder Boolean @default(false)
+  categoryId String
+  creditCardId String?
+
+  category Category @relation(fields: [categoryId], references: [id])
+  creditCard CreditCard? @relation(fields: [creditCardId], references: [id])
+}
+
+model CreditCard {
+  id String @id @default(cuid())
+  nameOnCard String
+  cardNumber String
+  expirationDate DateTime
+  userId String
+
+  user User @relation(fields: [userId], references: [id])
+  subscriptions Subscription[]
 }
