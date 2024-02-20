@@ -95,6 +95,7 @@ async function main() {
   await prisma.subscription.create({
     data: {
       id: faker.datatype.uuid(),
+      userId: user.id,
       name: faker.commerce.productName(),
       price: Number(faker.finance.amount()),
       description: faker.commerce.productDescription(),

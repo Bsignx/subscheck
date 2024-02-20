@@ -54,7 +54,7 @@ model User {
   sessions      Session[]
   isTwoFactorEnabled Boolean @default(false)
   twoFactorConfirmation TwoFactorConfirmation?
-  creditCards CreditCard[]
+  subscriptions Subscription[]
 }
 
 model VerificationToken {
@@ -114,6 +114,7 @@ model Budget {
 
 model Subscription {
   id String @id @default(cuid())
+  userId String
   name String
   price Float
   description String?
@@ -124,6 +125,7 @@ model Subscription {
 
   category Category @relation(fields: [categoryId], references: [id])
   creditCard CreditCard? @relation(fields: [creditCardId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model CreditCard {
@@ -133,6 +135,5 @@ model CreditCard {
   expirationDate DateTime
   userId String
 
-  user User @relation(fields: [userId], references: [id])
   subscriptions Subscription[]
 }
