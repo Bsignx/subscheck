@@ -24,6 +24,7 @@ const config = {
         ring: 'hsl(var(--ring))',
         progress: 'hsl(var(--progress))',
         background: 'hsl(var(--background))',
+        chameleon: 'hsla(var(--chameleon))',
         foreground: 'hsl(var(--foreground))',
         primary: {
           DEFAULT: 'hsl(var(--primary))',
@@ -34,11 +35,19 @@ const config = {
           foreground: 'hsl(var(--secondary-foreground))'
         },
         tertiary: {
-          DEFAULT: 'hsl(var(--tertiary))',
+          DEFAULT: 'hsla(var(--tertiary))',
           foreground: 'hsl(var(--tertiary-foreground))'
         },
-        shy: {
-          foreground: 'hsl(var(--shy-foreground))'
+        highlight: {
+          1: 'hsl(var(--highlight-1))',
+          2: 'hsl(var(--highlight-2))',
+          3: 'hsl(var(--highlight-3))'
+        },
+        shadow: {
+          1: 'hsla(var(--shadow-1))'
+        },
+        quaternary: {
+          foreground: 'hsl(var(--quaternary-foreground))'
         },
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',

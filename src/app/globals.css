@@ -4,61 +4,79 @@
 
 @layer base {
   :root {
-    --background: 0 0% 5%;
-    --foreground: 0 33% 98%;
+    --background: 0 0% 5%; /* hex #0D0D0D */
+    --foreground: 0 33% 98%; /* hex #FCF9F9 */
 
-    --primary: 238 100% 70%;
-    --primary-foreground: 0 33% 98%;
+    --primary: 238 100% 70%; /* hex #666CFF */
+    --primary-foreground: 0 33% 98%; /* hex #FCF9F9 */
 
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
+    --secondary: 0 0% 100%; /* hex #FFFFFF */
+    --secondary-foreground: 0 0% 5%; /* hex #0D0D0D */
 
-    --tertiary: 0 0% 96.1%;
-    --tertiary-foreground: 0 0% 54%;
+    --chameleon: 0, 0%, 100%, 0.1; /* hex #FFFFFF 10% */
 
-    --shy-foreground: 240 11% 78%;
+    --tertiary: 0, 0%, 100%, 0.15; /* hex #FFFFFF 15% */
+    --tertiary-foreground: 0 0% 54%; /* hex #8A8A8A */
 
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
+    --quaternary-foreground: 240 11% 78%; /* hex #C1C1CD */
 
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%; /* hex #F5F5F5 */
+    --muted-foreground: 0 0% 45.1%; /* hex #737373 */
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+    --accent: 0 0% 96.1%; /* hex #F5F5F5 */
+    --accent-foreground: 0 0% 9%; /* hex #171717 */
 
-    --border: 0 0% 89.8%;
-    --input: 238 9% 59%;
-    --ring: 0 0% 3.9%;
-    --progress: 0 0% 17%;
+    --destructive: 0 84.2% 60.2%; /* hex #EF4444 */
+    --destructive-foreground: 0 0% 98%; /* hex #FAFAFA */
+
+    --highlight-1: 8 100% 80%; /* hex #FFA699 */
+    --highlight-2: 263 100% 74%; /* hex #AD7BFF */
+    --highlight-3: 172 100% 75%; /* hex #7DFFEE */
+
+    --border: 0 0% 89.8%; /* hex #E5E5E5 */
+    --input: 238 9% 59%; /* hex #8d8ea0 */
+    --ring: 0 0% 3.9%; /* hex #0A0A0A */
+    --progress: 0 0% 17%; /* hex #2B2B2B */
     --radius: 0.5rem;
   }
 
-  .dark {
-    --background: 0 0% 5%;
-    --foreground: 0 33% 98%;
+  :root {
+    --background: 0 0% 5%; /* hex #0D0D0D */
+    --foreground: 0 33% 98%; /* hex #FCF9F9 */
 
-    --primary: 238 100% 70%;
-    --primary-foreground: 0 33% 98%;
+    --primary: 238 100% 70%; /* hex #666CFF */
+    --primary-foreground: 0 33% 98%; /* hex #FCF9F9 */
 
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 0 0% 100%; /* hex #FFFFFF */
+    --secondary-foreground: 0 0% 5%; /* hex #0D0D0D */
 
-    --tertiary: 0 0% 96.1%;
-    --tertiary-foreground: 0 0% 54%;
+    --chameleon: 0, 0%, 100%, 0.1; /* hex #FFFFFF 10% */
 
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
+    --tertiary: 0, 0%, 100%, 0.15; /* hex #FFFFFF 15% */
+    --tertiary-foreground: 0 0% 54%; /* hex #8A8A8A */
 
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
+    --quaternary-foreground: 240 11% 78%; /* hex #C1C1CD */
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
+    --muted: 0 0% 96.1%; /* hex #F5F5F5 */
+    --muted-foreground: 0 0% 45.1%; /* hex #737373 */
 
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
+    --accent: 0 0% 96.1%; /* hex #F5F5F5 */
+    --accent-foreground: 0 0% 9%; /* hex #171717 */
+
+    --destructive: 0 84.2% 60.2%; /* hex #EF4444 */
+    --destructive-foreground: 0 0% 98%; /* hex #FAFAFA */
+
+    --highlight-1: 8 100% 80%; /* hex #FFA699 */
+    --highlight-2: 263 100% 74%; /* hex #AD7BFF */
+    --highlight-3: 172 100% 75%; /* hex #7DFFEE */
+
+    --shadow-1: 238, 100%, 70%, 0.5; /* hex #666CFF 50% */
+
+    --border: 0 0% 89.8%; /* hex #E5E5E5 */
+    --input: 238 9% 59%; /* hex #8d8ea0 */
+    --ring: 0 0% 3.9%; /* hex #0A0A0A */
+    --progress: 0 0% 17%; /* hex #2B2B2B */
+    --radius: 0.5rem;
   }
 }
 

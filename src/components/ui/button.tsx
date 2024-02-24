@@ -11,22 +11,24 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          'font-semibold text-primary-foreground bg-primary hover:bg-primary/90 rounded-full shadow-[0_8px_25px_0_rgba(102,108,255,0.50)]  bg-[radial-gradient(100%_0%_at_45%_100%,rgba(255,255,255,0.00)_43.25%,rgba(102,108,255,0.50)_100%))]',
+          'font-semibold text-primary-foreground bg-primary hover:bg-primary/90 rounded-full shadow-[0_8px_25px_0_hsl(var(--shadow-1))] bg-[radial-gradient(100%_0%_at_45%_100%,rgba(255,255,255,0.00)_43.25%,rgba(102,108,255,0.50)_100%))]',
         chameleon:
-          'font-semibold text-primary-foreground bg-[rgba(255,255,255,0.10)] hover:bg-[rgba(255,255,255,0.10)]/20 rounded-full',
+          'font-semibold text-foreground bg-chameleon hover:bg-chameleon/20 rounded-full',
         destructive:
           'font-semibold bg-destructive text-destructive-foreground hover:bg-destructive/90',
         outline:
           'font-semibold border border-input bg-background hover:bg-accent hover:text-accent-foreground',
         secondary:
-          'font-semibold text-secondary-foreground bg-secondary  rounded-full hover:bg-secondary/90',
+          'font-semibold text-secondary-foreground bg-secondary rounded-full hover:bg-secondary/90',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
-        link: 'text-primary underline-offset-4 hover:underline'
+        link: 'text-primary underline-offset-4 hover:underline',
+        tertiary:
+          'bg-tertiary hover:bg-primary rounded-full text-xs font-semibold'
       },
       size: {
         default: 'h-12 px-4 py-2',
-        sm: 'h-9 rounded-md px-3',
-        lg: 'h-11 rounded-md px-8',
+        sm: 'h-8 px-3',
+        lg: 'h-11 px-8',
         icon: 'h-10 w-10'
       }
     },
