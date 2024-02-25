@@ -5,7 +5,10 @@ import { cn } from '@/lib/utils'
 
 import './globals.css'
 
-const roboto = Roboto({ subsets: ['latin'], weight: ['400', '700'] })
+const roboto = Roboto({
+  subsets: ['latin'],
+  weight: ['400', '500', '700']
+})
 
 export const metadata: Metadata = {
   title: 'Subscheck',
